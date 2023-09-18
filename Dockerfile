@@ -1,5 +1,9 @@
 FROM node:18-alpine AS base
 
+# 添加一个非root用户
+RUN addgroup -g 1000 myuser && \
+    adduser -u 1000 -G myuser -s /bin/sh -D myuser
+
 FROM base AS deps
 
 RUN apk add --no-cache libc6-compat
@@ -21,6 +25,9 @@ ENV CODE=""
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# 切换到非root用户
+USER myuser
 
 RUN yarn build
 
