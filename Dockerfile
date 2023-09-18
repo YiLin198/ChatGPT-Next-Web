@@ -1,8 +1,8 @@
 FROM node:18-alpine AS base
 
 # 添加一个非root用户
-RUN addgroup -g 1000 myuser && \
-    adduser -u 1000 -G myuser -s /bin/sh -D myuser
+RUN addgroup -g 10001 myuser && \
+    adduser -u 10001 -G myuser -s /bin/sh -D myuser
 
 FROM base AS deps
 
